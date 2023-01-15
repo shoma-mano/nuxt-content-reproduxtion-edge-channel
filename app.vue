@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import {useAsyncData, useRequestHeaders, useState} from "nuxt/app";
+// const info = useState(() => {
+//   const event = useRequestEvent()
+//   const cityHeader = event.req.headers['x-vercel-ip-city'] as string
+//   const city = cityHeader ? decodeURIComponent(cityHeader) : '-'
+//   const ipHeader = event.req.headers['x-forwarded-for'] as string
+//   const ip = ipHeader ? ipHeader.split(',')[0] : '-'
+//   return { city, ip }
+// })
+const { data: info } = await useAsyncData(() =>
+  globalThis.$fetch('/api/info', {
+    headers: useRequestHeaders(['x-forwarded-for', 'x-vercel-ip-city']),
+  })
+)
 
-const { data: info } = await useAsyncData('city',() => queryContent('city').where({id:1}).findOne());
-
+const generatedAt = useState(() => new Date().toISOString())
 </script>
 
 <template>
   <main>
     <p>
       data fetched by queryContent('city').where({id:1}).findOne()
-    </p>
-    <p>
-      name:{{info.name}}
-    </p>
-    <p>
-      id:{{info.id}}
     </p>
   </main>
 </template>
@@ -31,7 +36,7 @@ body {
   --primary: #00dc82;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-  Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: var(--bg);
   color: var(--fg);
 }
