@@ -9,7 +9,13 @@ const { data: stateInfo } = await useAsyncData('state',() => queryContent('state
       data fetched by queryContent('city').where({id:1}).findOne()
     </p>
     <p>
-      {{cityInfo}}
+       {{cityInfo}}
+    </p>
+    <p>
+      data fetched by queryContent('state').where({id:1}).findOne()
+    </p>
+    <p>
+      {{stateInfo}}
     </p>
   </main>
 </template>
