@@ -7,11 +7,8 @@
 //   const ip = ipHeader ? ipHeader.split(',')[0] : '-'
 //   return { city, ip }
 // })
-const { data: info } = await useAsyncData(() =>
-  globalThis.$fetch('/api/info', {
-    headers: useRequestHeaders(['x-forwarded-for', 'x-vercel-ip-city']),
-  })
-)
+const { data: info } = await useAsyncData('city',() => queryContent('city').where({id:1}).findOne());
+
 
 const generatedAt = useState(() => new Date().toISOString())
 </script>
@@ -20,6 +17,9 @@ const generatedAt = useState(() => new Date().toISOString())
   <main>
     <p>
       data fetched by queryContent('city').where({id:1}).findOne()
+    </p>
+    <p>
+      {{info}}
     </p>
   </main>
 </template>
