@@ -11,11 +11,5 @@ const { data: stateInfo } = await useAsyncData('state',() => queryContent('state
     <p>
       name:{{cityInfo.name}} id:{{cityInfo.id}}
     </p>
-    <p>
-      data fetched by queryContent('state').where({id:1}).findOne()
-    </p>
-    <p>
-      name:{{stateInfo.name}} id:{{stateInfo.id}}
-    </p>
   </main>
 </template>
