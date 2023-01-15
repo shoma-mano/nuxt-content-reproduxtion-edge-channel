@@ -1,8 +1,6 @@
 <script setup lang="ts">
-const { data: info } = await useAsyncData('city',() => queryContent('city').where({id:1}).findOne());
-
-
-const generatedAt = useState(() => new Date().toISOString())
+const { data: cityInfo } = await useAsyncData('city',() => queryContent('city').where({id:1}).findOne());
+const { data: stateInfo } = await useAsyncData('state',() => queryContent('state').where({id:1}).findOne());
 </script>
 
 <template>
@@ -11,7 +9,7 @@ const generatedAt = useState(() => new Date().toISOString())
       data fetched by queryContent('city').where({id:1}).findOne()
     </p>
     <p>
-      {{info}}
+      {{cityInfo}}
     </p>
   </main>
 </template>
