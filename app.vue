@@ -1,99 +1,22 @@
 <script setup lang="ts">
-// const info = useState(() => {
-//   const event = useRequestEvent()
-//   const cityHeader = event.req.headers['x-vercel-ip-city'] as string
-//   const city = cityHeader ? decodeURIComponent(cityHeader) : '-'
-//   const ipHeader = event.req.headers['x-forwarded-for'] as string
-//   const ip = ipHeader ? ipHeader.split(',')[0] : '-'
-//   return { city, ip }
-// })
-const { data: info } = await useAsyncData(() =>
-  globalThis.$fetch('/api/info', {
-    headers: useRequestHeaders(['x-forwarded-for', 'x-vercel-ip-city']),
-  })
-)
+import {useAsyncData, useRequestHeaders, useState} from "nuxt/app";
 
-const generatedAt = useState(() => new Date().toISOString())
+const { data: info } = await useAsyncData('city',() => queryContent('city').where({id:1}).findOne());
+
 </script>
 
 <template>
-  <div id="container">
-    <Head>
-      <Title>Nuxt on the edge</Title>
-      <Meta
-        name="description"
-        content="HTML, dynamically rendered in a city near you"
-      />
-      <Meta name="twitter:card" content="summary_large_image" />
-      <Meta name="twitter:site" content="@nuxt_js" />
-      <Meta name="twitter:creator" content="@nuxt_js" />
-      <Meta name="twitter:title" content="Nuxt on the edge" />
-      <Meta
-        name="twitter:description"
-        content="HTML, dynamically rendered in a city near you"
-      />
-      <Meta
-        name="twitter:image"
-        content="https://nuxt-on-the-edge.vercel.app/og-card.png"
-      />
-      <Meta name="twitter:image:alt" content="The Vercel and Nuxt logos" />
-      <Meta
-        name="og:image"
-        content="https://nuxt-on-the-edge.vercel.app/og-card.png"
-      />
-    </Head>
-    <div style="height: 100%">
-      <AppBackground />
-      <main>
-        <h1>Hello from the edge!</h1>
-        <div class="info">
-          <div class="block">
-            <div class="contents">
-              <span>Your city</span>
-              <strong
-                :title="
-                  info.city === '-'
-                    ? 'GeoIP information could not be derived from your IP'
-                    : null
-                "
-              >
-                {{ info.city }}
-              </strong>
-            </div>
-          </div>
-
-          <div class="block">
-            <div class="contents">
-              <span>Your IP address</span>
-              <strong>{{ info.ip }}</strong>
-            </div>
-          </div>
-        </div>
-      </main>
-      <div class="debug">Generated at {{ generatedAt }}</div>
-    </div>
-    <footer>
-      <p class="company">
-        <a target="_blank" href="https://vercel.com" aria-label="Vercel">
-          <LogoVercel />
-        </a>
-      </p>
-      <p class="details">
-        Built with
-        <NuxtLink to="https://v3.nuxtjs.org" target="_blank">Nuxt</NuxtLink>
-        on
-        <NuxtLink to="https://vercel.com" target="_blank">Vercel</NuxtLink>
-      </p>
-      <NuxtLink
-        target="_blank"
-        href="https://github.com/pi0/nuxt-on-the-edge"
-        class="source"
-      >
-        <LogoGithub />
-        Source
-      </NuxtLink>
-    </footer>
-  </div>
+  <main>
+    <p>
+      data fetched by queryContent('city').where({id:1}).findOne()
+    </p>
+    <p>
+      name:{{info.name}}
+    </p>
+    <p>
+      id:{{info.id}}
+    </p>
+  </main>
 </template>
 
 <style>
@@ -108,7 +31,7 @@ body {
   --primary: #00dc82;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: var(--bg);
   color: var(--fg);
 }
